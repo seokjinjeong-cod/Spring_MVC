@@ -1,5 +1,6 @@
 package com.yedam.web.board.web;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,11 +8,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.yedam.web.board.dao.Board;
+import com.yedam.web.board.service.BoardService;
 
 @Controller
 @RequestMapping("/board/")
 public class BoardController {
 
+	@Autowired BoardService service;
+	
 	@RequestMapping("list")
 	public String board(Model model) {
 		model.addAttribute("list", service.find());
