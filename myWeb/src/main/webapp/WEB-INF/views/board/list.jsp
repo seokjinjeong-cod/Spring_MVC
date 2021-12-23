@@ -15,6 +15,7 @@
 		<option value="writer" <c:if test="${search.gubun == 'writer'}">selected</c:if>>작성자
 		<option value="title" <c:if test="${search.gubun == 'title'}">selected</c:if>>제목
 		<option value="contents" <c:if test="${search.gubun == 'contents'}">selected</c:if>>내용
+		<option value="wdate" <c:if test="${search.gubun == 'wdate'}">selected</c:if>>작성일자
 	</select>
 	<input name="keyword"><br>
 	작성일자:<input name="from" type="date" value="${search.from }">
@@ -53,7 +54,7 @@
 <my:paging paging="${paging}" jsFunc="goboard"></my:paging>
 <script type="text/javascript">
 	function goboard(p) {
-		location.href = "list?page=" + p;
+		/* location.href = "list?page=" + p; */
 		searchFrm.page.value = p;
 		searchFrm.submit();
 	}

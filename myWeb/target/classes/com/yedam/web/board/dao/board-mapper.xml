@@ -5,26 +5,21 @@
 	<where>
 		<if test="keyword != null and keyword != ''">
 			${gubun} like '%' || #{keyword} || '%'
-			<if test="from != null">
-				<![CDATA[
-					and trunc(wdate) >= #{from}
-			    ]]>
-			</if>
-			<if test="to != null">
-				<![CDATA[
-					and trunc(wdate) <= #{from}
-			    ]]>
-			</if>
-			<if test="from != null and to != null">
-				<![CDATA[
-					and trunc(wdate) >= #{from} and trunc(wdate) <= #{to}
-			    ]]>
-			</if>
 			<!-- <choose>
 				<when test="gubun == 'writer'">writer = #{writer}</when>
 				<when test="gubun == 'contents'">contents = #{contents}</when>
 				<when test="gubun == 'title'">title = #{title}</when>
 			</choose> -->
+		</if>
+		<if test="from != null">
+			<![CDATA[
+				and trunc(wdate) >= #{from}
+		    ]]>
+		</if>
+		<if test="to != null">
+			<![CDATA[
+				and trunc(wdate) <= #{to}
+		    ]]>
 		</if>
 	</where>	
 </sql>
@@ -37,7 +32,7 @@
 				   writer,
 				   wdate,
 				   reply_cnt
-			from board 
+			from board
 			<include refid="boardWhere" />
 		) a ) b where rn between #{first} and #{last}
 	</select>

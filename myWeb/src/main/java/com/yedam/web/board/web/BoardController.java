@@ -25,7 +25,9 @@ public class BoardController {
 	public String board(Model model, 
 						@ModelAttribute("search") BoardSearch board, 
 						Paging paging) {
-		paging.setPageUnit(3);
+		System.out.println(board.getFrom());
+		System.out.println(board.getTo());
+		paging.setPageUnit(5);
 		paging.setTotalRecord(mapper.findTotal(board));
 		board.setFirst(paging.getFirst());
 		board.setLast(paging.getLast());
