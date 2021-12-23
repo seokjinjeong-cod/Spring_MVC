@@ -1,16 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.web.board.dao.BoardMapper">
+<sql id="boardWhere">
+	<where>
+		<if test="keyword != null and keyword != ''">
+			${gubun} like '%' || #{keyword} || '%'
+			<if test="from != null">
+				<![CDATA[
+					and trunc(wdate) >= #{from}
+			    ]]>
+			</if>
+			<if test="to != null">
+				<![CDATA[
+					and trunc(wdate) <= #{from}
+			    ]]>
+			</if>
+			<if test="from != null and to != null">
+				<![CDATA[
+					and trunc(wdate) >= #{from} and trunc(wdate) <= #{to}
+			    ]]>
+			</if>
+			<!-- <choose>
+				<when test="gubun == 'writer'">writer = #{writer}</when>
+				<when test="gubun == 'contents'">contents = #{contents}</when>
+				<when test="gubun == 'title'">title = #{title}</when>
+			</choose> -->
+		</if>
+	</where>	
+</sql>
 
-	<select id="find" resultType="Board" parameterType="Board">
-		select title, 
-			   contents
+	<select id="find" resultType="Board" parameterType="BoardSearch">
+		select * from ( select a.*, rownum rn from (
+			select no, 
+				   title,
+				   contents,
+				   writer,
+				   wdate,
+				   reply_cnt
+			from board 
+			<include refid="boardWhere" />
+		) a ) b where rn between #{first} and #{last}
+	</select>
+	
+	<select id="findTotal" resultType="int">
+		select count(*)
+			from board
+		<include refid="boardWhere" />
+	</select>
+	
+	<select id="select" parameterType="Board" resultType="Board">
+		select no, 
+			   title,
+			   contents,
+			   writer,
+			   wdate,
+			   reply_cnt
 		from board 
-		order by no desc
+		where no = #{no}
 	</select>
 
 	<insert id="insert" parameterType="Board">
-		insert into board(no, title, contents) values(BOARD_SEQ.nextval, #{title}, #{contents})
+		insert into board 
+			   (no, 
+			   	title, 
+			   	contents, 
+			   	writer, 
+			   	wdate)
+		values((select nvl(max(no)+1, 1) from board),
+			   #{title}, 
+			   #{contents}, 
+			   #{writer}, 
+			   sysdate)
 	</insert>
+	
+	<delete id="delete" parameterType="Board">
+		delete from board where no = #{no}
+	</delete>
+	
+	<update id="update" parameterType="Board">
+		update board set contents = #{contents}, writer = #{writer}, title = #{title}, wdate = sysdate where no = #{no}
+	</update>
 
 </mapper>

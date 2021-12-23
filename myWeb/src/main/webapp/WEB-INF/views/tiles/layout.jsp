@@ -29,7 +29,7 @@ header {
 nav {
 	float: left;
 	width: 30%;
-	height: 300px; /* only for demonstration, should be removed */
+	height: 500px; /* only for demonstration, should be removed */
 	background: #ccc;
 	padding: 20px;
 }
@@ -45,7 +45,7 @@ article {
 	padding: 20px;
 	width: 70%;
 	background-color: #f1f1f1;
-	height: 300px; /* only for demonstration, should be removed */
+	height: 500px; /* only for demonstration, should be removed */
 }
 
 /* Clear floats after the columns */
@@ -77,7 +77,7 @@ footer {
 	<h2>CSS Layout Float</h2>
 
 	<header>
-		<h2>Cities</h2>
+		<h2>BOARD</h2>
 	</header>
 
 	<section>
